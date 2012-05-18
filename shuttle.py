@@ -112,14 +112,17 @@ def login():
         return redirect(url_for('index'))
     return redirect(url_for('static', filename='login.html'))
 
+
 @app.route('/logout')
 def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
     return redirect(url_for('index'))
 
+
 # set the secret key.  keep this really secret:
-app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+app.secret_key = '\x0c\xe2\x83*\xe3MK\xf3\x9c\xe9\x16\xf7Bv\xe5\xf2\x17)\x05\x1a2\x91\xcc\xe8'
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)

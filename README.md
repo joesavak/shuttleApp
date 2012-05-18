@@ -19,5 +19,22 @@ Installing Requirements
 ====
 Make sure Python 2.7 and pip have been installed.
 
-Then do
+Then do the following in a terminal:
+
     pip install -r requirements.txt
+
+Initialize DB
+====
+Run the following in a terminal:
+
+    initilize.py
+
+If it does not run, try the following:
+
+    python initilize.py
+
+Start the Server
+===
+In a terminal, do:
+
+    python shuttle.py
