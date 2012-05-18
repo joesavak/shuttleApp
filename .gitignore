@@ -1,0 +1,7 @@
+.idea/
+.Python
+bin/
+include/
+lib/
+shuttle.db
+*.pyc
