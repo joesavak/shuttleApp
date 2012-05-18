@@ -57,10 +57,10 @@ $(document).ready(function()
 </div>
 
 
-<div class="section" id="today">
-
-  <form class="form-vertical well">
-  
+<div class="section row-fluid" id="today">
+<div class="span12">
+  <form class="form-vertical">
+  	<div class="well">
     <fieldset>
 	<div class="controls">
     <input type="text" class="" name="name" placeholder="Name">
@@ -107,12 +107,29 @@ $(document).ready(function()
     <hr />
     <fieldset>
     <h3>Afternoon Bus</h3>
+    
+    <div class="control-group" style="margin-top:20px;">
+            <label class="control-label">Departure Time</label>
+            <div class="controls">
+              <label class="radio pickup">
+                <input type="radio" name="leg" id="optionsRadios1" value="option1" checked="checked">
+                <strong>4:00 PM</strong></strong> <span class="label label-success">Available</span>
+              </label>
+              <label class="radio pickup">
+                <input type="radio" name="leg" id="optionsRadios2" value="option2">
+                <strong>4:00 PM</strong> <span class="label label-success">Available</span>
+              </label>
+            </div>
+          </div>
+    
     </fieldset>
   <hr />
     <div class="">
             <button type="submit" class="btn btn-large btn-inverse">Save Schedule</button>
           </div>
   </form>
+  </div>
+  </div>
 </div>
 
 
