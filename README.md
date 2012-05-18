@@ -13,3 +13,11 @@ Vision
 Wiki
 ====
 http://red.rackspace.com/display/austin/Shuttle+Check+In
+
+
+Installing Requirements
+====
+Make sure Python 2.7 and pip have been installed.
+
+Then do
+    pip install -r requirements.txt
