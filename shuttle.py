@@ -9,6 +9,8 @@ from flask import url_for
 from flask import escape
 from flask.ext.sqlalchemy import SQLAlchemy
 
+from datetime import date
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shuttle.db'
@@ -34,6 +36,7 @@ class ShuttleLeg(db.Model):
     destination = db.Column(db.String(50), nullable=False)
     depart_time = db.Column(db.DateTime, nullable=False)
     arrive_time = db.Column(db.DateTime, nullable=False)
+    week_day = db.Column(db.Integer, nullable=False)
 
     shuttle_id = db.Column(db.Integer, db.ForeignKey('shuttle.id'))
     shuttle = db.relationship('Shuttle',
@@ -73,7 +76,6 @@ class ActualShuttleLeg(db.Model):
         self.status = status
         self.shuttle_leg = shuttle_leg
 
-
 @app.route('/checkins/<int:shuttle>', methods=['GET', 'POST'])
 def check_ins(shuttle):
     if request.method == 'POST':
@@ -86,10 +88,15 @@ def check_ins(shuttle):
 @app.route('/shuttle', methods=['GET', 'POST'])
 def shuttle():
     if request.method == 'POST':
-        return "(posting data) %s" % request
+        capacity = request.form['capacity']
+        name = request.form['name']
+        shuttle = Shuttle(capacity, name)
+        db.session.add(shuttle)
+        db.session.commit()
+        return redirect(url_for('shuttle'))
     else:
         # get list of shuttles to signup for
-        shuttles = ['shuttle 1', 'shuttle 2', 'shuttle 3']
+        shuttles = Shuttle.query.all()
         return render_template('shuttle.html', shuttles=shuttles)
 
 
@@ -97,7 +104,10 @@ def shuttle():
 def index():
     if 'username' in session:
         username = escape(session['username'])
-        return render_template('shuttle.html', username=username)
+        dow_today = date.today().weekday()
+        to_san = ShuttleLeg.query.filter_by(week_day=dow_today, destination='Castle').all()
+        from_san = ShuttleLeg.query.filter_by(week_day=dow_today, origin='Castle').all()
+        return render_template('shuttle.html', username=username, to_san=to_san, from_san=from_san)
     return redirect(url_for('login'))
 
 

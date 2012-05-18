@@ -1,22 +1,148 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>No Racker Left Behind</title>
-    <link href="/static/bootstrap.min.css" rel="stylesheet">
+<title>No Racker Left Behind</title>
+<link href="/static/bootstrap.min.css" rel="stylesheet">
+<script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function()
+{
+	$("#primary-nav li a").click(function()
+	{
+		$(this).closest("li").addClass('active').siblings('.active').removeClass('active');
+		$('.section').hide();
+		$("#"+$(this).attr('alt')).show();
+	});
+	
+	$('.btn-group button').click(function()
+	{
+		$(this).addClass('btn-primary').siblings('.btn-primary').removeClass('btn-primary');
+	});
+	
+	
+});
+
+</script>
+
+<style type="text/css">
+
+
+.pickup
+{
+	margin-bottom:10px;
+}
+
+</style>
 </head>
 <body>
-<p>This is the Racker shuttle app.<p/>
-<p/>
-<p>Welcome {{username}}<p/>
-<br/>
-Add more content here... :)
+
+
+
+
+
+<div class="navbar" style="margin-bottom:0;" id="primary-nav">
+  <div class="navbar-inner">
+    <div class="container">
+      <ul class="nav">
+        <li class="active"> <a href="#today" alt="today">Today</a> </li>
+        <li><a href="#history" alt="history">History</a></li>
+        <li><a href="#admin" alt="admin">Shuttle Admin</a></li>
+        <li><a href="/logout">Log Out {{username}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<div class="section" id="today">
+
+  <form class="form-vertical well">
+  
+    <fieldset>
+	<div class="controls">
+    <input type="text" class="" name="name" placeholder="Name">
+    </div>
+    <div class="controls">
+  	<input type="text" class="" name="phone" placeholder="Phone Number">
+    </div>
+    </fieldset>
+    <hr />
+    <fieldset>
+    <h3>Morning Bus</h3>
+    	<div class="control-group" style="margin-top:10px;">
+            <label class="control-label" for="select01">Leave From</label>
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary" onClick="$('.south-pickup').hide();$('.north-pickup').show();">Austin Office</button>
+              <button type="button" class="btn" onClick="$('.north-pickup').hide();$('.south-pickup').show();">Southpark Meadows</button>
+            </div>
+          </div>
+          
+          <div class="control-group" style="margin-top:20px;">
+            <label class="control-label">Departure Time</label>
+            <div class="controls">
+              <label class="radio north-pickup pickup">
+                <input type="radio" name="leg" id="optionsRadios1" value="option1" checked="checked">
+                <strong>7:15 AM</strong></strong> <span class="label label-success">Available</span>
+              </label>
+              <label class="radio north-pickup pickup">
+                <input type="radio" name="leg" id="optionsRadios2" value="option2">
+                <strong>7:30 AM</strong> <span class="label label-success">Available</span>
+              </label>
+              <label class="radio south-pickup pickup hide">
+                <input type="radio" name="leg" id="optionsRadios1" value="option1">
+                <strong>7:45 AM</strong> <span class="label label-important">Full</span>
+              </label>
+              <label class="radio south-pickup pickup hide">
+                <input type="radio" name="leg" id="optionsRadios2" value="option2">
+                <strong>8:00 AM</strong> <span class="label label-success">Available</span>
+              </label>
+            </div>
+          </div>
+          
+          
+    </fieldset>
+    <hr />
+    <fieldset>
+    <h3>Afternoon Bus</h3>
+    </fieldset>
+  <hr />
+    <div class="">
+            <button type="submit" class="btn btn-large btn-inverse">Save Schedule</button>
+          </div>
+  </form>
+</div>
+
+
+<div class="section hide" id="admin">
+<p>Add a new shuttle to the database:</p>
+    <form action="/shuttle" method="post">
+        <p>Capacity <input type=text name=capacity>
+        <p>Name <input type=text name=name>
+        <p><input type=submit value="Create Shuttle">
+    </form>
+    
+    
+{% if shuttles %}
 <p>list of shuttles to take</p>
-{% for shuttle in shuttles %}
-    <div class=flash>{{ shuttle }}</div>
-{% endfor %}
-<br/>
-<br/>
-<a href="/logout">Logout</a>
+
+<table border="1">
+    <tr class=flash>
+        <td>name</td>
+        <td>capacity</td>
+    </tr>
+    {% for shuttle in shuttles %}
+    <tr class=flash>
+        <td>{{ shuttle.name }}</td>
+        <td>{{ shuttle.capacity }}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
+
+</table>
+</div>
+
 </body>
 </html>
