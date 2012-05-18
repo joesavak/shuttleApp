@@ -34,19 +34,22 @@ class ShuttleLeg(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     origin = db.Column(db.String(50), nullable=False)
     destination = db.Column(db.String(50), nullable=False)
-    depart_time = db.Column(db.DateTime, nullable=False)
-    arrive_time = db.Column(db.DateTime, nullable=False)
+    # Minutes since the beginning of the day (midnight)
+    depart_time = db.Column(db.Integer, nullable=False)
+    # Minutes since the beginning of the day (midnight)
+    arrive_time = db.Column(db.Integer)
     week_day = db.Column(db.Integer, nullable=False)
 
     shuttle_id = db.Column(db.Integer, db.ForeignKey('shuttle.id'))
     shuttle = db.relationship('Shuttle',
                               backref=db.backref('shuttles', lazy='dynamic'))
 
-    def __init__(self, origin, destination, depart_time, arrive_time, shuttle):
+    def __init__(self, origin, destination, depart_time, arrive_time, week_day, shuttle):
         self.origin=origin
         self.destination=destination
         self.depart_time=depart_time
         self.arrive_time=arrive_time
+        self.week_day=week_day
         self.shuttle=shuttle
 
 
