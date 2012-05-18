@@ -23,7 +23,6 @@ def shuttle():
     if request.method == 'POST':
         return "(posting data) %s" % request
     else:
-#        return "GET all the shuttles [list]"
         return url_for('static', filename='bootstrap.min.css')
 
 
@@ -32,9 +31,6 @@ def index():
     if 'username' in session:
         username = escape(session['username'])
         return render_template('shuttle.html', username=username)
-#        return redirect(url_for('static', filename='shuttle.html'))
-#        return 'Logged in as %s' % escape(session['username'])
-#    return 'You are not logged in'
     return redirect(url_for('login'))
 
 
