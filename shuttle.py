@@ -1,4 +1,5 @@
 __author__ = 'craig.vyvial'
+
 from flask import Flask
 from flask import request
 from flask import session
@@ -8,38 +9,43 @@ from flask import url_for
 from flask import escape
 from flask.ext.sqlalchemy import SQLAlchemy
 
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////shuttle.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shuttle.db'
 db = SQLAlchemy(app)
+
 
 class Shuttle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     capacity = db.Column(db.Integer, nullable=False)
     name = db.Column(db.String(60), nullable=False)
 
-    def __init__(self,cpacity,name):
+    def __init__(self,capacity,name):
         self.capacity=capacity
         self.name=name
 
     def __repr__(self):
         return '<Shuttle %r>' % self.name
 
+
 class ShuttleLeg(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     origin = db.Column(db.String(50), nullable=False)
     destination = db.Column(db.String(50), nullable=False)
-    departtime = db.Column(db.DateTime, nullable=False) 
-    arrivetime = db.Column(db.DateTime, nullable=False)
+    depart_time = db.Column(db.DateTime, nullable=False)
+    arrive_time = db.Column(db.DateTime, nullable=False)
 
     shuttle_id = db.Column(db.Integer, db.ForeignKey('shuttle.id'))
-    shuttle = db.relationship('Shuttle', backref=db.backref('shuttles', lazy='dynamic'))
+    shuttle = db.relationship('Shuttle',
+                              backref=db.backref('shuttles', lazy='dynamic'))
 
-    def __init__(self,origin,destination,departtime,arrivetime, shuttle):
+    def __init__(self, origin, destination, depart_time, arrive_time, shuttle):
         self.origin=origin
         self.destination=destination
-        self.departtime=departtime
-        self.arrivetime=arrivetime
+        self.depart_time=depart_time
+        self.arrive_time=arrive_time
         self.shuttle=shuttle
+
 
 class Racker(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -57,7 +63,9 @@ class ActualShuttleLeg(db.Model):
     status = db.Column(db.String(20))
 
     shuttle_leg_id = db.Column(db.Integer, db.ForeignKey('shuttle_leg.id'))
-    shuttle_leg = db.relationship('ShuttleLeg', backref=db.backref('actual_shuttle_legs', lazy='dynamic'))
+    shuttle_leg = db.relationship('ShuttleLeg',
+                                  backref=db.backref('actual_shuttle_legs',
+                                                     lazy='dynamic'))
     
     def __init__(self, date, racker_id, status, shuttle_leg):
         self.date = date
@@ -66,16 +74,23 @@ class ActualShuttleLeg(db.Model):
         self.shuttle_leg = shuttle_leg
 
 
-@app.route('/checkins', methods=['GET', 'POST'])
-def check_ins():
-    pass
+@app.route('/checkins/<int:shuttle>', methods=['GET', 'POST'])
+def check_ins(shuttle):
+    if request.method == 'POST':
+        return "(creating checkin with post data) %s - (shuttle) : %s" % (request, shuttle)
+    else:
+        # get list of checkins for the shuttle given
+        shuttle = {'shuttle 1':'test'}
+        return render_template('checkin.html', shuttle=shuttle)
 
 @app.route('/shuttle', methods=['GET', 'POST'])
 def shuttle():
     if request.method == 'POST':
         return "(posting data) %s" % request
     else:
-        return url_for('static', filename='bootstrap.min.css')
+        # get list of shuttles to signup for
+        shuttles = ['shuttle 1', 'shuttle 2', 'shuttle 3']
+        return render_template('shuttle.html', shuttles=shuttles)
 
 
 @app.route('/')

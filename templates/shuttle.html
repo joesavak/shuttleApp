@@ -11,6 +11,10 @@
 <p>Welcome {{username}}<p/>
 <br/>
 Add more content here... :)
+<p>list of shuttles to take</p>
+{% for shuttle in shuttles %}
+    <div class=flash>{{ shuttle }}</div>
+{% endfor %}
 <br/>
 <br/>
 <a href="/logout">Logout</a>
