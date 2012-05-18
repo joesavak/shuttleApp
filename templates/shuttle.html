@@ -10,6 +10,24 @@
 
 $(document).ready(function()
 {
+	var theHash = window.location.hash;
+	var hash = theHash.substring(1);
+	 
+	 if(hash != "")
+	 {
+	 	$(".section").hide();
+		$("#"+hash).show();
+		
+		jQuery.each($(".navbar li"),function()
+		{
+			if(hash == $(this).children("a").attr("alt"))
+			{
+				$(this).addClass("active").siblings('.active').removeClass('active');
+			}
+		})
+	 }
+	
+
 	$("#primary-nav li a").click(function()
 	{
 		$(this).closest("li").addClass('active').siblings('.active').removeClass('active');
@@ -26,23 +44,15 @@ $(document).ready(function()
 });
 
 </script>
-
 <style type="text/css">
-
-
 .pickup
 {
 	margin-bottom:10px;
 }
-
 </style>
 </head>
 <body>
-
-
-
-
-
+<div class="container-fluid">
 <div class="navbar" style="margin-bottom:0;" id="primary-nav">
   <div class="navbar-inner">
     <div class="container">
@@ -55,111 +65,119 @@ $(document).ready(function()
     </div>
   </div>
 </div>
-
-
 <div class="section row-fluid" id="today">
-<div class="span12">
-  <form class="form-vertical">
-  	<div class="well">
-    <fieldset>
-	<div class="controls">
-    <input type="text" class="" name="name" placeholder="Name">
-    </div>
-    <div class="controls">
-  	<input type="text" class="" name="phone" placeholder="Phone Number">
-    </div>
-    </fieldset>
-    <hr />
-    <fieldset>
-    <h3>Morning Bus</h3>
-    	<div class="control-group" style="margin-top:10px;">
-            <label class="control-label" for="select01">Leave From</label>
-            <div class="btn-group">
-              <button type="button" class="btn btn-primary" onClick="$('.south-pickup').hide();$('.north-pickup').show();">Austin Office</button>
-              <button type="button" class="btn" onClick="$('.north-pickup').hide();$('.south-pickup').show();">Southpark Meadows</button>
-            </div>
-          </div>
-          
-          <div class="control-group" style="margin-top:20px;">
-            <label class="control-label">Departure Time</label>
-            <div class="controls">
-              <label class="radio north-pickup pickup">
-                <input type="radio" name="leg" id="optionsRadios1" value="option1" checked="checked">
-                <strong>7:15 AM</strong></strong> <span class="label label-success">Available</span>
-              </label>
-              <label class="radio north-pickup pickup">
-                <input type="radio" name="leg" id="optionsRadios2" value="option2">
-                <strong>7:30 AM</strong> <span class="label label-success">Available</span>
-              </label>
-              <label class="radio south-pickup pickup hide">
-                <input type="radio" name="leg" id="optionsRadios1" value="option1">
-                <strong>7:45 AM</strong> <span class="label label-important">Full</span>
-              </label>
-              <label class="radio south-pickup pickup hide">
-                <input type="radio" name="leg" id="optionsRadios2" value="option2">
-                <strong>8:00 AM</strong> <span class="label label-success">Available</span>
-              </label>
-            </div>
-          </div>
-          
-          
-    </fieldset>
-    <hr />
-    <fieldset>
-    <h3>Afternoon Bus</h3>
-    
-    <div class="control-group" style="margin-top:20px;">
-            <label class="control-label">Departure Time</label>
-            <div class="controls">
-              <label class="radio pickup">
-                <input type="radio" name="leg" id="optionsRadios1" value="option1" checked="checked">
-                <strong>4:00 PM</strong></strong> <span class="label label-success">Available</span>
-              </label>
-              <label class="radio pickup">
-                <input type="radio" name="leg" id="optionsRadios2" value="option2">
-                <strong>4:00 PM</strong> <span class="label label-success">Available</span>
-              </label>
-            </div>
-          </div>
-    
-    </fieldset>
-  <hr />
-    <div class="">
-            <button type="submit" class="btn btn-large btn-inverse">Save Schedule</button>
-          </div>
-  </form>
-  </div>
+  <div class="span12">
+    <form class="form-vertical">
+      <div class="well">
+      <fieldset>
+      <div class="controls">
+        <input type="text" class="" name="name" placeholder="Name">
+      </div>
+      <div class="controls">
+        <input type="text" class="" name="phone" placeholder="Phone Number">
+      </div>
+      </fieldset>
+      <hr />
+      <fieldset>
+      <h3>Morning Bus</h3>
+      <div class="control-group" style="margin-top:10px;">
+        <label class="control-label" for="select01">Leave From</label>
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary" onClick="$('.south-pickup').hide();$('.north-pickup').show();">Austin Office</button>
+          <button type="button" class="btn" onClick="$('.north-pickup').hide();$('.south-pickup').show();">Southpark Meadows</button>
+        </div>
+      </div>
+      <div class="control-group" style="margin-top:20px;">
+        <label class="control-label">Departure Time</label>
+        <div class="controls">
+          <label class="radio north-pickup pickup">
+          <input type="radio" name="depart" value="7:15" checked="checked">
+          <strong>7:15 AM</strong></strong> <span class="label label-success">Available</span> </label>
+          <label class="radio north-pickup pickup">
+          <input type="radio" name="depart" value="7:30">
+          <strong>7:30 AM</strong> <span class="label label-success">Available</span> </label>
+          <label class="radio south-pickup pickup hide">
+          <input type="radio" name="depart" value="7:45">
+          <strong>7:45 AM</strong> <span class="label label-important">Full</span> </label>
+          <label class="radio south-pickup pickup hide">
+          <input type="radio" name="depart" value="8:00">
+          <strong>8:00 AM</strong> <span class="label label-success">Available</span> </label>
+        </div>
+      </div>
+      </fieldset>
+      <hr />
+      <fieldset>
+      <h3>Planned Afternoon Bus</h3>
+      <div class="control-group" style="margin-top:20px;">
+        <label class="control-label">Departure Time</label>
+        <div class="controls">
+          <label class="radio pickup">
+          <input type="radio" name="return" value="4:00" checked="checked">
+          <strong>4:00 PM</strong></strong> <span class="label label-success">Available</span> </label>
+          <label class="radio pickup">
+          <input type="radio" name="return" value="5:15">
+          <strong>5:15 PM</strong> <span class="label label-success">Available</span> </label>
+        </div>
+      </div>
+      </fieldset>
+      <hr />
+      <div class="">
+        <button type="submit" class="btn btn-large btn-inverse">Check-In</button>
+      </div>
+    </form>
   </div>
 </div>
-
-
-<div class="section hide" id="admin">
-<p>Add a new shuttle to the database:</p>
-    <form action="/shuttle" method="post">
-        <p>Capacity <input type=text name=capacity>
-        <p>Name <input type=text name=name>
-        <p><input type=submit value="Create Shuttle">
-    </form>
-    
-    
-{% if shuttles %}
-<p>list of shuttles to take</p>
-
-<table border="1">
+</div>
+<div class="section row-fluid hide" id="admin">
+  <form class="form-vertical" action="/shuttle#admin" method="post">
+    <div class="well">
+      <h3>Create a New Shuttle</h3>
+      
+      
+      <div class="control-group" style="margin-top:10px;">
+        <div class="control-label">
+          <label for="capacity">Shuttle Name</label>
+        </div>
+        <div class="controls">
+          <input type="text" name="name" id="shuttle-name" />
+        </div>
+      </div>
+      <div class="control-group" style="margin-top:10px;">
+        <div class="control-label">
+          <label for="capacity">Capacity</label>
+        </div>
+        <div class="controls">
+          <input type="text" name="capacity" id="capacity" />
+        </div>
+      </div>
+      <hr />
+        <button type="submit" class="btn btn-large btn-inverse">Create Shuttle</button>
+    </div>
+  </form>
+  {% if shuttles %}
+  <div class="well">
+  <h2>
+    list of shuttles to take
+  </h2>
+  <table class="table table-bordered table-striped table-condensed">
+  <thead>
     <tr class=flash>
-        <td>name</td>
-        <td>capacity</td>
+      <th>Shuttle Name</th>
+      <th>Capacity</th>
     </tr>
+    </thead>
+    <tbody>
     {% for shuttle in shuttles %}
     <tr class=flash>
-        <td>{{ shuttle.name }}</td>
-        <td>{{ shuttle.capacity }}</td>
+      <td>{{ shuttle.name }}</td>
+      <td>{{ shuttle.capacity }}</td>
     </tr>
     {% endfor %}
     {% endif %}
-
-</table>
+    </tbody>
+  </table>
+  </div>
 </div>
-
+</div>
 </body>
 </html>
